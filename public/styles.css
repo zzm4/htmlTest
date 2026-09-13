@@ -263,9 +263,126 @@ input::placeholder, textarea::placeholder { color: #aab2c4; }
   text-align: center;
 }
 
+.entries {
+  margin-top: 26px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+
+.entries h2 {
+  margin: 0 0 6px;
+  font-size: 19px;
+}
+
+.entries-note {
+  margin: 0 0 14px;
+  color: var(--ink-soft);
+  font-size: 12.5px;
+}
+
+.entries-unlock {
+  display: flex;
+  gap: 10px;
+}
+
+.entries-unlock input { flex: 1; }
+.entries-unlock .btn { flex: 0 0 auto; }
+
+#entries-list[hidden] { display: none; }
+
+.entries-meta {
+  margin: 18px 0 10px;
+  color: var(--ink-soft);
+  font-size: 12.5px;
+}
+
+.entry-cards {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0 0 16px;
+  padding: 0;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.entry {
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fafbfe;
+}
+
+.entry-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.entry-head strong { font-size: 14.5px; }
+
+.tag {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: #eaf0ff;
+  color: var(--accent-dark);
+  font-size: 12px;
+}
+
+.entry-time {
+  margin-left: auto;
+  color: #98a1b5;
+  font-size: 12px;
+}
+
+.entry-body {
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  gap: 4px 12px;
+  margin: 0;
+}
+
+.entry-body dt {
+  color: var(--ink-soft);
+  font-size: 12.5px;
+}
+
+.entry-body dd {
+  margin: 0;
+  font-size: 13.5px;
+  word-break: break-all;
+}
+
+.entry-body dd.empty { color: #aab2c4; }
+.entry-body a { color: var(--accent-dark); }
+
+.entries-empty {
+  margin: 0 0 16px;
+  color: var(--ink-soft);
+  font-size: 13.5px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
 @media (max-width: 480px) {
   body { padding: 20px 12px 36px; }
   .card { padding: 24px 18px 22px; }
   #result-list > div { flex-direction: column; gap: 2px; }
   #result-list dt { flex: none; }
+  .entry-body { grid-template-columns: 1fr; gap: 0; }
+  .entry-body dt { margin-top: 6px; }
+  .entry-time { margin-left: 0; }
 }

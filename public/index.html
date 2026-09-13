@@ -77,6 +77,23 @@
     <dl id="result-list"></dl>
     <button type="button" class="btn btn-ghost" id="edit-btn">返回修改</button>
   </section>
+
+  <section class="entries" id="entries" aria-live="polite">
+    <h2>已登记信息</h2>
+    <p class="entries-note">需要查看口令。口令只用于本次请求，不会写入 Cookie 或本地存储；新提交最多约 1 分钟后出现在列表里。</p>
+    <div class="entries-unlock">
+      <label for="entries-pass" class="sr-only">查看口令</label>
+      <input type="password" id="entries-pass" autocomplete="off" placeholder="输入查看口令" maxlength="128">
+      <button type="button" class="btn btn-ghost" id="entries-btn">查看列表</button>
+    </div>
+    <p class="banner" id="entries-banner" role="alert" hidden></p>
+    <div id="entries-list" hidden>
+      <p class="entries-meta" id="entries-meta"></p>
+      <ul class="entry-cards" id="entry-cards"></ul>
+      <p class="entries-empty" id="entries-empty" hidden>目前还没有登记信息。</p>
+      <button type="button" class="btn btn-ghost" id="entries-refresh">刷新列表</button>
+    </div>
+  </section>
 </main>
 
 <footer class="foot">静态页面 + Cloudflare Worker · 数据存储于 Cloudflare KV · 无统计脚本</footer>
