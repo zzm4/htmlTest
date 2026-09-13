@@ -5,6 +5,8 @@ const resetBtn = document.getElementById('reset-btn');
 const editBtn = document.getElementById('edit-btn');
 const remark = document.getElementById('remark');
 const remarkCount = document.getElementById('remark-count');
+const banner = document.getElementById('submit-banner');
+const submitBtn = form.querySelector('button[type="submit"]');
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const URL_PATTERN = /^https?:\/\/[^\s]+\.[^\s]{2,}/i;
@@ -23,6 +25,11 @@ function setError(field, message) {
   wrapper.querySelector('.error').textContent = message || '';
 }
 
+function setBanner(message) {
+  banner.hidden = !message;
+  banner.textContent = message || '';
+}
+
 function validateField(field) {
   const raw = document.getElementById(field.id).value.trim();
 
@@ -36,6 +43,17 @@ function validateField(field) {
     return '链接需以 http:// 或 https:// 开头';
   }
   return '';
+}
+
+function collectPayload() {
+  return {
+    website: document.getElementById('website').value,
+    accountName: document.getElementById('account-name').value.trim(),
+    platform: document.getElementById('platform').value,
+    email: document.getElementById('email').value.trim(),
+    homepage: document.getElementById('homepage').value.trim(),
+    remark: document.getElementById('remark').value.trim(),
+  };
 }
 
 function showResult() {
@@ -60,8 +78,9 @@ function showResult() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-form.addEventListener('submit', (event) => {
+form.addEventListener('submit', async (event) => {
   event.preventDefault();
+  setBanner('');
 
   let firstInvalid = null;
   for (const field of FIELDS) {
@@ -74,7 +93,29 @@ form.addEventListener('submit', (event) => {
     document.getElementById(firstInvalid).focus();
     return;
   }
-  showResult();
+
+  submitBtn.disabled = true;
+  try {
+    const response = await fetch('/api/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(collectPayload()),
+    });
+
+    if (response.status === 400) {
+      setBanner('提交的内容未通过校验，请检查后重试');
+      return;
+    }
+    if (!response.ok) {
+      setBanner('服务暂时不可用，请稍后重试');
+      return;
+    }
+    showResult();
+  } catch {
+    setBanner('网络异常，提交未成功，请检查网络后重试');
+  } finally {
+    submitBtn.disabled = false;
+  }
 });
 
 for (const field of FIELDS) {
@@ -94,6 +135,7 @@ remark.addEventListener('input', () => {
 resetBtn.addEventListener('click', () => {
   form.reset();
   remarkCount.textContent = '0';
+  setBanner('');
   for (const field of FIELDS) setError(field, '');
   document.getElementById('account-name').focus();
 });

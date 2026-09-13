@@ -145,6 +145,37 @@ input::placeholder, textarea::placeholder { color: #aab2c4; }
   text-align: right;
 }
 
+.honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.banner {
+  margin: 0 0 16px;
+  padding: 10px 14px;
+  border: 1px solid #f3c9c9;
+  border-left: 3px solid var(--danger);
+  border-radius: 9px;
+  background: #fdf6f6;
+  color: var(--danger);
+  font-size: 13px;
+}
+
+.banner[hidden] { display: none; }
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .actions {
   display: flex;
   gap: 10px;

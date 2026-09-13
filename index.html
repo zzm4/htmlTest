@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; connect-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; connect-src 'self'">
 <title>账号信息登记 · 演示页面</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f7cff'/%3E%3Cpath d='M16 9a4 4 0 110 8 4 4 0 010-8zm-7 14a7 7 0 0114 0z' fill='white'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="styles.css">
@@ -13,7 +13,7 @@
 
 <div class="notice" role="note">
   <strong>演示页面</strong>
-  <span>你填写的内容只保存在当前浏览器标签页中，不会被提交、上传或写入任何服务器。刷新页面即清空。</span>
+  <span>你填写的内容会提交并存储在本站的 Cloudflare KV 中，仅用于演示登记。本页不收集密码、令牌等凭证信息。</span>
 </div>
 
 <main class="card">
@@ -23,6 +23,8 @@
   </header>
 
   <form id="profile-form" novalidate>
+    <input type="text" id="website" name="website" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+
     <div class="field">
       <label for="account-name">账号名称 <span class="req">*</span></label>
       <input type="text" id="account-name" name="accountName" autocomplete="off" maxlength="40" placeholder="例如：zhang_san">
@@ -61,6 +63,8 @@
       <p class="hint"><span id="remark-count">0</span>/200</p>
     </div>
 
+    <p class="banner" id="submit-banner" role="alert" hidden></p>
+
     <div class="actions">
       <button type="submit" class="btn btn-primary">提交</button>
       <button type="button" class="btn btn-ghost" id="reset-btn">清空</button>
@@ -69,13 +73,13 @@
 
   <section class="result" id="result" hidden aria-live="polite">
     <h2>提交成功</h2>
-    <p class="result-note">以下内容仅渲染在你本地的页面上，没有任何网络请求发出。</p>
+    <p class="result-note">以下内容已提交并存储，同时回显在你本地的页面上。</p>
     <dl id="result-list"></dl>
     <button type="button" class="btn btn-ghost" id="edit-btn">返回修改</button>
   </section>
 </main>
 
-<footer class="foot">纯前端静态页面 · 无后端 · 无数据库 · 无统计脚本</footer>
+<footer class="foot">静态页面 + Cloudflare Pages Functions · 数据存储于 Cloudflare KV · 无统计脚本</footer>
 
 <script src="app.js"></script>
 </body>
