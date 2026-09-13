@@ -7,9 +7,7 @@ function fail(status, message) {
   return Response.json({ ok: false, error: message }, { status });
 }
 
-export async function onRequestPost(context) {
-  const { request, env } = context;
-
+async function handleSubmit(request, env) {
   if (!env.REGISTRY) {
     return fail(500, 'storage not configured');
   }
@@ -60,6 +58,15 @@ export async function onRequestPost(context) {
   return Response.json({ ok: true }, { status: 201 });
 }
 
-export async function onRequest() {
-  return fail(405, 'method not allowed');
-}
+export default {
+  async fetch(request, env) {
+    const { pathname } = new URL(request.url);
+
+    if (pathname === '/api/submit') {
+      if (request.method !== 'POST') return fail(405, 'method not allowed');
+      return handleSubmit(request, env);
+    }
+
+    return env.ASSETS.fetch(request);
+  },
+};
